@@ -1,7 +1,14 @@
+"use client"
+
 import Link from "next/link"
+import { useSearchParams } from "next/navigation"
 import { CpuIcon } from "lucide-react"
 
 export function Footer() {
+  const searchParams = useSearchParams()
+
+  if (searchParams.get("admin") === "1") return null
+
   return (
     <footer className="border-t border-border/60 bg-card/30">
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-4 lg:px-8">

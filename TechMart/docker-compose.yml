@@ -1,0 +1,54 @@
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: techmart-nginx:latest
+    container_name: techmart-nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - frontend
+      - backend
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: http://backend:8080/api
+    image: techmart-frontend:latest
+    container_name: techmart-frontend
+    environment:
+      NEXT_PUBLIC_API_URL: http://backend:8080/api
+      API_URL: http://backend:8080/api
+      NEXT_PUBLIC_BASE_URL: http://backend:8080/api
+    expose:
+      - "3000"
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./ecommerce
+      dockerfile: Dockerfile
+    image: techmart-backend:latest
+    container_name: techmart-backend
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080"
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${DB_NAME}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-ADMIN}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-toihoang}
+      APP_S3_BUCKET_NAME: ${APP_S3_BUCKET_NAME}
+      APP_S3_REGION: ${APP_S3_REGION:-ap-southeast-1}
+      APP_S3_PRESIGNED_URL_EXPIRATION_MINUTES: ${APP_S3_PRESIGNED_URL_EXPIRATION_MINUTES:-60}
+    restart: unless-stopped

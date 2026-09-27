@@ -68,7 +68,7 @@ export default function OrderDetailPage() {
             <h2 className="font-semibold">Trạng thái xử lý (event-driven)</h2>
             <p className="mt-1 text-sm text-muted-foreground">
               Mô phỏng luồng sự kiện: OrderCreated → PaymentRequested → PaymentCompleted → InventoryReserved →
-              NotificationSent → OrderCompleted.
+              OrderCompleted.
             </p>
             <div className="mt-5">
               <OrderEventTimeline events={events} />

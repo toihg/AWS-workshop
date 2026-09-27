@@ -1,65 +1,39 @@
 ---
 title: "Week 1 Worklog"
-date: 2026-04-12
+date: 2026-09-27
 weight: 1
 chapter: false
 pre: " <b> 1.1. </b> "
 ---
 
-### Week 1 Objectives:
+### Week 1 Objectives
 
-* Get familiar with the internship environment and AWS basics.
-* Learn IAM and user permission management.
-* Learn to deploy and manage Amazon EC2.
-* Understand Amazon VPC networking.
-* Learn static website hosting with Amazon S3.
-* Practice IAM Role and AWS CLI.
+* Learn the fundamentals of AWS and cloud computing.
+* Learn the basic concepts of cloud architecture.
+* Learn IAM and access management.
+* Learn Amazon VPC and basic networking architecture on AWS.
+* Learn Amazon EC2 and how to deploy a server in a VPC.
+* Get familiar with the AWS CLI.
 
-### Tasks to be carried out this week:
+### Tasks for the Week
 
-| Day | Task | Start Date | Completion Date | Reference Material |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------------- | ----------------------------------------- |
-| 1 | - Attend internship orientation.<br>- Learn AWS Cloud basics.<br>- Create IAM Group and IAM User.<br>- Assign AdministratorAccess policy and test IAM login. | 12/04/2026 | 12/04/2026 | https://cloudjourney.awsstudygroup.com/ |
-| 2 | - Learn Amazon EC2.<br>- Launch an Amazon Linux EC2 instance.<br>- Configure Security Group.<br>- Connect via SSH.<br>- Install Apache and deploy a simple web page. | 13/04/2026 | 13/04/2026 | https://cloudjourney.awsstudygroup.com/ |
-| 3 | - Learn Amazon VPC.<br>- Create a VPC.<br>- Create Public and Private Subnets.<br>- Attach an Internet Gateway.<br>- Configure Route Tables. | 14/04/2026 | 14/04/2026 | https://cloudjourney.awsstudygroup.com/ |
-| 4 | - Learn Amazon S3.<br>- Create an S3 Bucket.<br>- Upload website files.<br>- Configure Bucket Policy.<br>- Enable Static Website Hosting. | 15/04/2026 | 15/04/2026 | https://cloudjourney.awsstudygroup.com/ |
-| 5 | - Learn IAM Role and AWS CLI.<br>- Create an IAM Role for EC2.<br>- Attach AmazonS3ReadOnlyAccess.<br>- Connect via SSH.<br>- Practice AWS CLI commands. | 16/04/2026 | 16/04/2026 | https://cloudjourney.awsstudygroup.com/ |
+| **Day** | **Task** | **Start Date** | **Completion Date** | **Reference Material** |
+| :--- | :--- | :--- | :--- | :--- |
+| **2** | Learn AWS and cloud computing fundamentals.<br>Learn about Regions, Availability Zones, and core AWS concepts.<br>Get familiar with the AWS Management Console. | 03/08/2026 | 03/08/2026 | [AWS Study Group](https://cloudjourney.awsstudygroup.com/) |
+| **3** | Learn IAM.<br>Create IAM Users and Groups.<br>Learn IAM Policies and permission management.<br>Practice signing in and managing access. | 04/08/2026 | 04/08/2026 | [AWS Study Group](https://cloudjourney.awsstudygroup.com/) |
+| **4** | Learn Amazon VPC.<br>Learn about Subnets, Route Tables, and Internet Gateways.<br>Create a VPC and configure basic networking. | 05/08/2026 | 05/08/2026 | [AWS Study Group](https://cloudjourney.awsstudygroup.com/) |
+| **5** | Learn Amazon EC2.<br>Launch an EC2 Instance in a VPC.<br>Configure a Security Group.<br>Connect to EC2 using SSH. | 06/08/2026 | 06/08/2026 | [AWS Study Group](https://cloudjourney.awsstudygroup.com/) |
+| **6** | Learn the AWS CLI.<br>Configure the AWS CLI.<br>Practice basic AWS resource management commands. | 07/08/2026 | 07/08/2026 | [AWS Study Group](https://cloudjourney.awsstudygroup.com/) |
+| **7** | Practice using IAM, VPC, and EC2 together.<br>Verify EC2 connectivity and Security Group settings.<br>Practice managing EC2 with the AWS CLI. | 08/08/2026 | 08/08/2026 | [AWS Study Group](https://cloudjourney.awsstudygroup.com/) |
+| **Sunday** | Review AWS, IAM, VPC, EC2, and AWS CLI concepts.<br>Summarize the material and document issues encountered during practice. | 09/08/2026 | 09/08/2026 | [AWS Study Group](https://cloudjourney.awsstudygroup.com/) |
 
-### Week 1 Achievements:
+### Week 1 Achievements
 
-* Learned AWS Cloud basics and internship workflow.
-
-* Learned IAM:
-  * Create IAM Groups and Users.
-  * Assign policies.
-  * Log in with IAM users.
-
-* Deployed an EC2 instance:
-  * Configure Security Groups.
-  * Connect via SSH.
-  * Install Apache.
-  * Deploy a simple website.
-
-* Learned Amazon VPC:
-  * Create a VPC.
-  * Configure Public and Private Subnets.
-  * Attach an Internet Gateway.
-  * Configure Route Tables.
-  * Assign Public IPv4.
-
-* Hosted a static website on Amazon S3:
-  * Create an S3 Bucket.
-  * Upload website files.
-  * Configure Bucket Policy.
-  * Enable Static Website Hosting.
-
-* Practiced IAM Role and AWS CLI:
-  * Create an IAM Role.
-  * Attach AmazonS3ReadOnlyAccess.
-  * Use AWS CLI.
-  * List S3 Buckets.
-  * Understand AccessDenied errors.
-
-* Gained hands-on experience with IAM, EC2, VPC, S3, and AWS CLI.
-
-* Learned basic AWS security using IAM Users, Roles, and Policies.
+* Learned the fundamentals of **AWS and cloud computing**.
+* Understood **Regions, Availability Zones, and VPCs**.
+* Learned to manage access permissions with **IAM**.
+* Understood basic network architecture using **VPCs, Subnets, Route Tables, and Internet Gateways**.
+* Learned to launch and configure **EC2 Instances in a VPC**.
+* Practiced configuring **Security Groups and connecting with SSH**.
+* Got familiar with the **AWS CLI** and basic resource management commands.
+* Understood how **IAM, VPC, and EC2** work together when deploying AWS resources.

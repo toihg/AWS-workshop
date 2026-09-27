@@ -21,12 +21,10 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final ObjectMapper objectMapper;
-    private final EmailNotificationService emailNotificationService;
 
-    public OrderService(OrderRepository orderRepository, ObjectMapper objectMapper, EmailNotificationService emailNotificationService) {
+    public OrderService(OrderRepository orderRepository, ObjectMapper objectMapper) {
         this.orderRepository = orderRepository;
         this.objectMapper = objectMapper;
-        this.emailNotificationService = emailNotificationService;
     }
 
     @Transactional
@@ -38,7 +36,6 @@ public class OrderService {
                     request.address(), request.note(), request.paymentMethod(), request.subtotal(), request.shippingFee(),
                     request.total(), "PENDING", paymentStatus, null, objectMapper.writeValueAsString(request.items()));
             Order savedOrder = orderRepository.save(order);
-            emailNotificationService.sendOrderCreated(savedOrder);
             return OrderResponse.from(savedOrder, objectMapper);
         } catch (JacksonException exception) {
             throw new IllegalStateException("Không thể lưu sản phẩm trong đơn hàng", exception);
@@ -70,7 +67,6 @@ public class OrderService {
         order.setPaymentStatus("CONFIRMED");
         order.setStatus("COMPLETED");
         Order savedOrder = orderRepository.save(order);
-        emailNotificationService.sendPaymentConfirmed(savedOrder);
         return OrderResponse.from(savedOrder, objectMapper);
     }
 

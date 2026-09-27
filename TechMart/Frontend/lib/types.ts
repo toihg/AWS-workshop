@@ -105,7 +105,6 @@ export type OrderEventType =
   | "PaymentRequested"
   | "PaymentCompleted"
   | "InventoryReserved"
-  | "NotificationSent"
   | "OrderCompleted"
 
 export type OrderEventStatus =

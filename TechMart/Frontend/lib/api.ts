@@ -1,17 +1,30 @@
 import type { Order, Product } from "@/lib/types"
 
-const API_URL = "http://18.140.192.116:8080/api"
+function getBaseUrl(): string {
+  if (typeof window !== "undefined") {
+    return "/api"
+  }
+  const raw = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL || "http://backend:8080/api"
+  const clean = raw.replace(/\/$/, "")
+  return clean.endsWith("/api") ? clean : `${clean}/api`
+}
+
+const API_URL = getBaseUrl()
 
 export async function getProducts(): Promise<Product[]> {
-  const response = await fetch(`${API_URL}/products`, {
-    cache: "no-store",
-  })
+  try {
+    const response = await fetch(`${API_URL}/products`, {
+      cache: "no-store",
+    })
 
-  if (!response.ok) {
-    throw new Error("Không thể lấy danh sách sản phẩm")
+    if (!response.ok) {
+      return []
+    }
+
+    return (await response.json()) as Product[]
+  } catch {
+    return []
   }
-
-  return (await response.json()) as Product[]
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | undefined> {
@@ -143,4 +156,79 @@ export async function confirmBackendPayment(id: string): Promise<Order> {
   })
   if (!response.ok) throw new Error("Không thể xác nhận thanh toán")
   return (await response.json()) as Order
+}
+
+export async function uploadProductImage(file: File): Promise<{ imageKey: string; imageUrl?: string }> {
+  const formData = new FormData()
+  formData.append("file", file)
+
+  const response = await fetch(`${API_URL}/products/upload-image`, {
+    method: "POST",
+    headers: ADMIN_HEADERS,
+    body: formData,
+  })
+
+  if (!response.ok) {
+    const body = (await response.json().catch(() => null)) as {
+      detail?: string
+      message?: string
+    } | null
+
+    throw new Error(
+      body?.detail ??
+      body?.message ??
+      "Không thể tải ảnh lên S3"
+    )
+  }
+
+  return (await response.json()) as { imageKey: string; imageUrl?: string }
+}
+
+export async function createProduct(product: Omit<Product, "id">): Promise<Product> {
+  const response = await fetch(`${API_URL}/products`, {
+    method: "POST",
+    headers: {
+      ...ADMIN_HEADERS,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(product),
+  })
+
+  if (!response.ok) {
+    const body = (await response.json().catch(() => null)) as {
+      detail?: string
+      message?: string
+    } | null
+
+    throw new Error(
+      body?.detail ??
+      body?.message ??
+      "Không thể thêm sản phẩm"
+    )
+  }
+
+  return (await response.json()) as Product
+}
+
+export async function deleteProduct(id: string): Promise<void> {
+  const response = await fetch(
+    `${API_URL}/products/${encodeURIComponent(id)}`,
+    {
+      method: "DELETE",
+      headers: ADMIN_HEADERS,
+    },
+  )
+
+  if (!response.ok) {
+    const body = (await response.json().catch(() => null)) as {
+      detail?: string
+      message?: string
+    } | null
+
+    throw new Error(
+      body?.detail ??
+      body?.message ??
+      "Không thể xóa sản phẩm"
+    )
+  }
 }

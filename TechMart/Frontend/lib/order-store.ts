@@ -23,7 +23,7 @@ function writeJSON<T>(key: string, value: T) {
 /**
  * The event sequence below simulates the AWS event-driven pipeline
  * (OrderCreated -> PaymentRequested -> PaymentCompleted -> InventoryReserved
- * -> NotificationSent -> OrderCompleted) entirely on the client with mock data,
+ * -> OrderCompleted) entirely on the client with mock data,
  * since no backend is connected yet.
  */
 const EVENT_SEQUENCE: OrderEventType[] = [
@@ -31,7 +31,6 @@ const EVENT_SEQUENCE: OrderEventType[] = [
   "PaymentRequested",
   "PaymentCompleted",
   "InventoryReserved",
-  "NotificationSent",
   "OrderCompleted",
 ]
 

@@ -1,10 +1,11 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
-import { CheckCircle2Icon, ClipboardListIcon, LogOutIcon, ShieldCheckIcon, TruckIcon, TrendingUpIcon } from "lucide-react"
+import { CheckCircle2Icon, ClipboardListIcon, ShieldCheckIcon, TruckIcon, TrendingUpIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
+import { AdminProductManagement } from "@/components/admin-product-management"
 import { confirmBackendPayment, getAdminOrders, loginAdmin } from "@/lib/api"
 import { formatDateTime, formatVND } from "@/lib/format"
 import type { Order } from "@/lib/types"
@@ -76,8 +77,14 @@ export default function AdminPage() {
     setError("")
     setLoading(true)
     try {
-      await loginAdmin(username.trim(), password)
-      window.localStorage.setItem(ADMIN_SESSION_KEY, "ADMIN")
+      const admin = await loginAdmin(username.trim(), password)
+
+      window.localStorage.setItem(
+        ADMIN_SESSION_KEY,
+        admin.username
+      )
+      window.dispatchEvent(new Event("techmart-admin-session-change"))
+
       setAuthenticated(true)
       await refreshOrders()
       setPassword("")
@@ -103,6 +110,8 @@ export default function AdminPage() {
 
   function handleLogout() {
     window.localStorage.removeItem(ADMIN_SESSION_KEY)
+    window.localStorage.removeItem("techmart_admin_username")
+    window.dispatchEvent(new Event("techmart-admin-session-change"))
     setAuthenticated(false)
     setOrders([])
   }
@@ -150,10 +159,6 @@ export default function AdminPage() {
           <h1 className="mt-2 text-3xl font-semibold tracking-tight">Quản lý đơn hàng</h1>
           <p className="mt-1 text-sm text-muted-foreground">Đơn vẫn được giữ lại sau khi khách gửi mã giao dịch để admin đối soát.</p>
         </div>
-        <Button variant="outline" onClick={handleLogout}>
-          <LogOutIcon className="size-4" />
-          Đăng xuất
-        </Button>
       </div>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
@@ -253,6 +258,8 @@ export default function AdminPage() {
           statusClassName="text-emerald-600"
         />
       </div>
+
+      <AdminProductManagement />
     </div>
   )
 }

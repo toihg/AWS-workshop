@@ -23,10 +23,6 @@ const EVENT_LABELS: Record<OrderEventType, { title: string; description: string 
     title: "Giữ hàng trong kho",
     description: "Sản phẩm đã được giữ trong kho để chuẩn bị đóng gói (InventoryReserved).",
   },
-  NotificationSent: {
-    title: "Thông báo đã gửi",
-    description: "Email và thông báo xác nhận đơn hàng đã được gửi tới khách hàng (NotificationSent).",
-  },
   OrderCompleted: {
     title: "Hoàn tất đơn hàng",
     description: "Đơn hàng đã được xử lý xong và sẵn sàng giao vận (OrderCompleted).",

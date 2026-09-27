@@ -46,9 +46,10 @@ function filterAndSort(products: Product[], params: { category?: string; sort?: 
 export default async function ProductsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ category?: string; sort?: string; q?: string }>
+  searchParams: Promise<{ category?: string; sort?: string; q?: string; admin?: string }>
 }) {
   const params = await searchParams
+  const adminView = params.admin === "1"
   const allProducts = await getProducts()
   const products = filterAndSort(allProducts, params)
   const categories = Array.from(new Set(allProducts.map((product) => product.category)))
@@ -80,7 +81,7 @@ export default async function ProductsPage({
       ) : (
         <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard key={product.id} product={product} adminView={adminView} />
           ))}
         </div>
       )}

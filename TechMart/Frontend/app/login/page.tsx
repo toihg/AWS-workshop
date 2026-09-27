@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-import { ArrowRightIcon, LockKeyholeIcon, MailIcon, PhoneIcon } from "lucide-react"
+import { ArrowRightIcon, LockKeyholeIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -28,6 +28,7 @@ export default function LoginPage() {
 
         if (admin.role === "ADMIN") {
           localStorage.setItem("admin", JSON.stringify(admin))
+          localStorage.setItem("techmart_admin_session", admin.username)
           router.push("/admin")
           return
         }
@@ -66,21 +67,14 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="identifier">Email hoặc số điện thoại</Label>
-            <div className="relative">
-              <div className="pointer-events-none absolute left-3 top-1/2 flex -translate-y-1/2 gap-2 text-muted-foreground">
-                <MailIcon className="size-4" />
-                <PhoneIcon className="size-4" />
-              </div>
-              <Input
-                id="identifier"
-                type="text"
-                value={identifier}
-                onChange={(e) => setIdentifier(e.target.value)}
-                placeholder="name@example.com hoặc 090xxxxxxx"
-                className="pl-12"
-                required
-              />
-            </div>
+            <Input
+              id="identifier"
+              type="text"
+              value={identifier}
+              onChange={(e) => setIdentifier(e.target.value)}
+              placeholder="name@example.com hoặc 090xxxxxxx"
+              required
+            />
           </div>
 
           <div className="space-y-2">
