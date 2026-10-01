@@ -39,7 +39,7 @@ In the bucket creation interface, configure the following information:
 | Encryption type | SSE-S3 |
 
 <p align="center">
-  <img src="/images/3-Workshop/3.4/1.png/" width="1900">
+  <img src="/images/3-Workshop/3.4/1.png" width="1900">
 </p
 
 Select ***Create bucket***.
@@ -59,7 +59,7 @@ products
 ```
 
 <p align="center">
-  <img src="/images/3-Workshop/3.4/2.png/" width="1900">
+  <img src="/images/3-Workshop/3.4/2.png" width="1900">
 </p
 
 4. Select **Create folder**.

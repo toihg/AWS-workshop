@@ -21,7 +21,7 @@ In the **Name tag** field, enter:
 ```TechMart-IGW```
 
 <p align="center">
-  <img src="/images/3-Workshop/3.2/igw.png/" width="1900">
+  <img src="/images/3-Workshop/3.2/igw.png" width="1900">
 </p>
 
 Then select ***Create internet gateway.***.
@@ -37,7 +37,7 @@ Under ***Available VPCs***, select:
 `TechMart-VPC`
 
 <p align="center">
-  <img src="/images/3-Workshop/3.2/attach_vpc.png/" width="1900">
+  <img src="/images/3-Workshop/3.2/attach_vpc.png" width="1900">
 </p>
 
 Then select ***Attach internet gateway***.

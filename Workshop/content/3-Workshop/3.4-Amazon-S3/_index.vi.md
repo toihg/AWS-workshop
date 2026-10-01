@@ -39,7 +39,7 @@ Tại giao diện tạo bucket, thiết lập các thông tin sau:
 | Encryption type | SSE-S3 |
 
 <p align="center">
-  <img src="/images/3-Workshop/3.4/1.png/" width="1900">
+  <img src="/images/3-Workshop/3.4/1.png" width="1900">
 </p
 
 Chọn ***Create budet***
@@ -58,7 +58,7 @@ Sau khi tạo bucket thành công:
 products`
 
 <p align="center">
-  <img src="/images/3-Workshop/3.4/2.png/" width="1900">
+  <img src="/images/3-Workshop/3.4/2.png" width="1900">
 </p
 
 4. Chọn **Create folder**

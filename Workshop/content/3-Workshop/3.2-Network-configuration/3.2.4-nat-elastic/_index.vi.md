@@ -38,7 +38,7 @@ Tại **Public IPv4 address pool**, chọn:
 **Amazon's pool of IPv4 addresses**
 
 <p align="center">
-  <img src="/images/3-Workshop/3.2/allocate_elastic.png/" width="1900">
+   <img src="/images/3-Workshop/3.2/allocate_elastic.png" width="1900">
 </p>
 
 Sau đó chọn:
@@ -71,7 +71,7 @@ Nhập các thông tin:
 | Elastic IP allocation ID |	Chọn Elastic IP vừa tạo |
 
 <p align="center">
-  <img src="/images/3-Workshop/3.2/create_nat.png/" width="1900">
+   <img src="/images/3-Workshop/3.2/create_nat.png" width="1900">
 </p>
 
 Sau đó chọn:
@@ -104,7 +104,7 @@ Tại Target, chọn:
 **TechMart-NAT-Gateway**
 
 <p align="center">
-  <img src="/images/3-Workshop/3.2/edit_routetable_private.png/" width="1900">
+  <img src="/images/3-Workshop/3.2/edit_routetable_private.png" width="1900">
 </p>
 
 Sau đó chọn:

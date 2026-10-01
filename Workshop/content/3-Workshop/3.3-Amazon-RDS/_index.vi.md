@@ -56,7 +56,7 @@ ap-southeast-1b
 Sau đó chọn các Private Subnet tương ứng.
 
 <p align="center">
-  <img src="/images/3-Workshop/3.3/subnetgroup.png/" width="1900">
+  <img src="/images/3-Workshop/3.3/subnetgroup.png" width="1900">
 </p
 
 Sau khi kiểm tra, chọn:
@@ -89,7 +89,7 @@ Tại **Engine options**, chọn:
 Chọn **Full configuration**
 
 <p align="center">
-  <img src="/images/3-Workshop/3.3/1.png/" width="1900">
+  <img src="/images/3-Workshop/3.3/1.png" width="1900">
 </p
 
 ---
@@ -106,7 +106,7 @@ Tại phần Settings, cấu hình:
 | Confirm password | Nhập lại mật khẩu |
 
 <p align="center">
-  <img src="/images/3-Workshop/3.3/2.png/" width="1900">
+  <img src="/images/3-Workshop/3.3/2.png" width="1900">
 </p
 
 ---
@@ -140,7 +140,7 @@ Sau đó chọn:
 **TechMart-RDS-SG**
 
 <p align="center">
-  <img src="/images/3-Workshop/3.3/3.png/" width="1900">
+  <img src="/images/3-Workshop/3.3/3.png" width="1900">
 </p
 
 #### Bước 9:  Cấu hình Database Options

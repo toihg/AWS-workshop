@@ -63,7 +63,7 @@ Keep the default configuration:
 All traffic → 0.0.0.0/0
 
 <p align="center">
-  <img src="/images/3-Workshop/3.2/sg_alb.png/" width="1900">
+   <img src="/images/3-Workshop/3.2/sg_alb.png" width="1900">
 </p>
 
 Then select:

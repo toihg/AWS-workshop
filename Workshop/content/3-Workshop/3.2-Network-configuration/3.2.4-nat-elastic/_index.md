@@ -38,7 +38,7 @@ Under **Public IPv4 address pool**, select:
 **Amazon's pool of IPv4 addresses**
 
 <p align="center">
-  <img src="/images/3-Workshop/3.2/allocate_elastic.png/" width="1900">
+  <img src="/images/3-Workshop/3.2/allocate_elastic.png" width="1900">
 </p>
 
 Then select:
@@ -71,7 +71,7 @@ Enter the following information:
 | Elastic IP allocation ID | Select the Elastic IP created earlier |
 
 <p align="center">
-  <img src="/images/3-Workshop/3.2/create_nat.png/" width="1900">
+  <img src="/images/3-Workshop/3.2/create_nat.png" width="1900">
 </p>
 
 Then select:
@@ -104,7 +104,7 @@ For the Target, select:
 **TechMart-NAT-Gateway**
 
 <p align="center">
-  <img src="/images/3-Workshop/3.2/edit_routetable_private.png/" width="1900">
+  <img src="/images/3-Workshop/3.2/edit_routetable_private.png" width="1900">
 </p>
 
 Then select:

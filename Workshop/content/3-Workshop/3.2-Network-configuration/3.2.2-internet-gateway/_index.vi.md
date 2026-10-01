@@ -21,7 +21,7 @@ Tại mục **Name tag**
 Nhập ```TechMart-IGW```
 
 <p align="center">
-  <img src="/images/3-Workshop/3.2/igw.png/" width="1900">
+  <img src="/images/3-Workshop/3.2/igw.png" width="1900">
 </p>
 
 Sau đó chọn ***Create internet gateway.***.
@@ -39,7 +39,7 @@ Tại ***Available VPCs***, chọn:
 `TechMart-VPC`
 
 <p align="center">
-  <img src="/images/3-Workshop/3.2/attach_vpc.png/" width="1900">
+  <img src="/images/3-Workshop/3.2/attach_vpc.png" width="1900">
 </p>
 
 Sau đó chọn ***Attach internet gateway***.

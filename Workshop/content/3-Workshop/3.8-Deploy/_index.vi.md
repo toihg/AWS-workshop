@@ -28,7 +28,7 @@ docker login --username AWS --password-stdin \
 <ACCOUNT_ID>.dkr.ecr.ap-southeast-1.amazonaws.com
 ```
 <p align="center">
-  <img src="/images/3-Workshop/3.7/1.png" width="1000">
+  <img src="/images/3-Workshop/3.8/1.png" width="1000">
 </p>
 
 
@@ -270,6 +270,6 @@ Kiểm tra trạng thái:
 sudo docker compose ps
 ```
 <p align="center">
-  <img src="/images/3-Workshop/3.7/3.png" width="1900">
+  <img src="/images/3-Workshop/3.8/3.png" width="1900">
 </p>
 
