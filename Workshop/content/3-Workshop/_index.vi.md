@@ -20,7 +20,7 @@ Application Load Balancer (ALB) tiếp nhận các request từ Internet thông 
 
 AWS IAM được sử dụng để quản lý quyền truy cập đến các dịch vụ AWS thông qua IAM Role.
 
-Trong quá trình thực hiện, chúng ta sẽ chuẩn bị môi trường và mã nguồn, xây dựng hạ tầng mạng với Amazon VPC (Public Subnet, Private Subnet, Route Table, Internet Gateway, NAT Gateway, Elastic IP), khởi tạo Amazon RDS MySQL và Amazon S3, cấu hình AWS IAM, thiết lập Amazon ECR, đóng gói ứng dụng bằng Docker, triển khai Backend và Frontend lên EC2, cấu hình Nginx Reverse Proxy và Application Load Balancer, giám sát và kiểm thử toàn bộ hệ thống End-to-End.
+Trong quá trình thực hiện, chúng ta sẽ chuẩn bị môi trường và mã nguồn, xây dựng hạ tầng mạng với Amazon VPC (Public Subnet, Private Subnet, Route Table, Internet Gateway, NAT Gateway, Elastic IP), khởi tạo Amazon RDS MySQL và Amazon S3, cấu hình AWS IAM, thiết lập Amazon ECR, đóng gói ứng dụng bằng Docker, triển khai Backend và Frontend lên EC2, cấu hình Nginx Reverse Proxy và Application Load Balancer, giám sát hệ thống bằng Amazon CloudWatch và kiểm thử toàn bộ hệ thống End-to-End.
 
 Cuối cùng, các tài nguyên AWS được tạo trong workshop sẽ được dọn dẹp để tránh phát sinh chi phí không cần thiết.
 
@@ -28,13 +28,15 @@ Cuối cùng, các tài nguyên AWS được tạo trong workshop sẽ được 
 
 #### Cấu Trúc Bài Lab Kỹ Thuật
 
-1. [3.1. Chuẩn bị môi trường](http://localhost:1313/Workshop/3-workshop/3.1-prepare-environment/)
-2. [3.2. Triển khai hạ tầng mạng](http://localhost:1313/Workshop/3-workshop/3.2-network-configuration/)
-3. [3.3. Khởi tạo và cấu hình Amazon RDS MySQL](http://localhost:1313/Workshop/3-workshop/3.3-amazon-rds/)
-4. [3.4. Cấu hình Amazon S3](http://localhost:1313/Workshop/3-workshop/3.4-amazon-s3/)
-5. [3.5. Cấu hình IAM Role cho Máy chủ EC2](http://localhost:1313/Workshop/3-workshop/3.5-aws-iam/)
-6. [3.6. Khởi tạo máy chủ EC2 và Import dữ liệu vào RDS qua SSM](http://localhost:1313/Workshop/3-workshop/3.6-ec2/)
-7. [3.7. Đóng gói ứng dụng bằng Docker](http://localhost:1313/Workshop/3-workshop/3.7-docker-build)
-8. [3.8. Triển khai ứng dụng lên Amazon EC2](http://localhost:1313/Workshop/3-workshop/3.8-deploy/)
-9. [3.9. Cấu hình Application Load Balancer](http://localhost:1313/Workshop/3-workshop/3.9-alb/)
-10. [3.10. Dọn dẹp tài nguyên AWS](http://localhost:1313/Workshop/3-workshop/3.10-clean/)
+1. [3.1. Chuẩn bị môi trường](./3.1-prepare-environment/)
+2. [3.2. Triển khai hạ tầng mạng](./3.2-network-configuration/)
+3. [3.3. Khởi tạo và cấu hình Amazon RDS MySQL](./3.3-amazon-rds/)
+4. [3.4. Cấu hình Amazon S3](./3.4-amazon-s3/)
+5. [3.5. Cấu hình IAM Role cho Máy chủ EC2](./3.5-aws-iam/)
+6. [3.6. Khởi tạo máy chủ EC2 và Import dữ liệu vào RDS qua SSM](./3.6-ec2/)
+7. [3.7. Đóng gói ứng dụng bằng Docker](./3.7-docker-build/)
+8. [3.8. Triển khai ứng dụng lên Amazon EC2](./3.8-deploy/)
+9. [3.9. Cấu hình Application Load Balancer](./3.9-alb/)
+10. [3.10. Giám sát hệ thống với Amazon Cloudwatch](./3.10-cloudwatch/)
+11. [3.11. Kiểm thử hệ thống](./3.11-test/)
+12. [3.12. Dọn dẹp tài nguyên AWS](./3.12-clean/)

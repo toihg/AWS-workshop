@@ -8,202 +8,230 @@ pre: " <b> 2. </b> "
 
 # TechMart E-Commerce Platform on AWS
 
-## Solution for Deploying the E-Commerce System on AWS
+## Proposal for Deploying an E-Commerce System on AWS
 
 ### 1. Executive Summary
 
-**TechMart** is an e-commerce platform specializing in technology products such as laptops, phones, headphones, wearables, and accessories. The system supports core functions such as registration, login, product browsing and search, shopping cart management, order placement, payment, and order status tracking. In addition, the system provides an administration interface for managing products, orders, and payment status.
+**TechMart** is an e-commerce platform for technology products such as laptops, mobile phones, headphones, wearables, and accessories. Its core features include registration, login, product browsing and search, cart management, ordering, payment, and order-status tracking. The system also provides an administration interface for managing products, orders, and payment statuses.
 
-The system is built using a Full-Stack Containerized architecture with **Frontend Next.js, Backend Spring Boot** and **Nginx Reverse Proxy**. The applications are containerized using **Docker** and deployed on **Amazon EC2**. Transaction data is stored in **Amazon RDS for MySQL**, while product images are stored in **Amazon S3**.
+The system uses a **full-stack, containerized architecture** with a **Next.js frontend, Spring Boot backend, and Nginx reverse proxy**. The application is packaged with **Docker** and deployed on **Amazon EC2**. Transactional data is stored in **Amazon RDS for MySQL**, while product images are stored in **Amazon S3**.
 
-The infrastructure is built on **Amazon VPC**, using Public Subnets and Private Subnets to separate system components. **Application Load Balancer (ALB)** deployed in the Public Subnet receives requests from the Internet through the **ALB DNS Name** and securely forwards traffic to **Amazon EC2** located in the Private Subnet.
+The infrastructure is built on **Amazon VPC**, with public and private subnets separating system components. An **Application Load Balancer (ALB)** in the public subnet receives requests from the Internet and forwards them to **Amazon EC2** in the private subnet through a target group.
 
-**NAT Gateway** is used to provide outbound connectivity for resources in the Private Subnet. **AWS IAM** is used to manage access permissions through IAM Roles, **Amazon ECR is used to store Docker Images**
+A **NAT Gateway** provides outbound connectivity for resources in the private subnet. **AWS IAM** manages access through IAM roles, and **Amazon ECR** stores the application's Docker images.
+
+In addition to hosting the application, **Amazon CloudWatch** monitors system activity. It provides EC2 metrics such as CPU, network, and instance status, and supports **CloudWatch Alarms** that notify operators when metrics exceed defined thresholds.
 
 ---
 
 ### 2. Problem Statement
 
-#### Current Issues
+#### Current Challenges
 
-During local development, the Frontend, Backend, database, and product images are typically run or stored on the developer’s computer. This deployment approach is suitable for development and testing but does not meet the requirements when the system needs to be deployed in a Cloud environment and accessed over the Internet.
+During local development, the frontend, backend, database, and product images are often run or stored on a developer's computer. This works for development and testing, but does not meet the needs of deploying the system to the cloud and making it accessible over the Internet.
 
-In addition, the system requires dedicated solutions for product image storage, database management, request distribution from the Internet, sensitive information management, and application monitoring.
+The system also needs dedicated solutions for product-image storage, database management, routing requests from the Internet, access control, and application monitoring.
 
-Allowing the application server to be directly accessible from the Internet also increases the system’s exposure. Therefore, network components should be separated and direct access to critical resources such as Amazon EC2 and Amazon RDS should be restricted.
+Allowing application servers to be accessed directly from the Internet increases the system's exposure. The network components should therefore be separated, and direct access to important resources such as Amazon EC2 and Amazon RDS should be restricted.
 
-#### Solution
+Once deployed on AWS, the system also needs a way to track its status and resource usage so that operational issues can be detected.
 
-The workshop proposes deploying TechMart on AWS with components separated by function:
+#### Proposed Solution
 
-- **Frontend Next.js**: chạy bằng Docker trên Amazon EC2.
-- **Backend Spring Boot**: chạy bằng Docker trên Amazon EC2 and cung cấp REST API.
-- **Nginx**: hoạt động như Reverse Proxy and chuyển tiếp request đến các Docker container.
-- **Amazon RDS for MySQL**: lưu trữ dữ liệu người dùng, sản phẩm, giỏ hàng, đơn hàng and thanh toán.
-- **Amazon S3**: lưu trữ hình ảnh sản phẩm.
-- **Amazon VPC**: xây dựng môi trường mạng riêng cho hệ thống.
-- **Public Subnet**: triển khai Application Load Balancer and NAT Gateway.
-- **Private Subnet**: triển khai Amazon EC2 and Amazon RDS.
-- **Application Load Balancer**: tiếp nhận and phân phối request từ Internet đến EC2.
-- **NAT Gateway**: cung cấp kết nối outbound cho các tài nguyên trong Private Subnet.
-- **AWS IAM**: manages access permissions to AWS services.
-- **Amazon ECR**: stores Docker Images for the Frontend and Backend.
-- **Docker**: đóng gói Frontend and Backend thành các container.
+This workshop proposes deploying TechMart on AWS with components organized by responsibility:
 
-The system supports two payment methods: **cash on delivery (COD)** and **bank transfer**. For bank transfers, customers enter the transaction code, and administrators can check and confirm the payment status.
+* **Next.js frontend**: provides the user interface and runs in a Docker container on Amazon EC2.
+* **Spring Boot backend**: runs in a Docker container on Amazon EC2 and provides the REST API.
+* **Nginx**: acts as a reverse proxy and routes requests to the appropriate frontend or backend service.
+* **Amazon RDS for MySQL**: stores user, product, cart, order, and payment data.
+* **Amazon S3**: stores product images.
+* **Amazon VPC**: provides a private network environment for the system.
+* **Public subnet**: hosts the Application Load Balancer and NAT Gateway.
+* **Private subnet**: hosts Amazon EC2 and Amazon RDS.
+* **Application Load Balancer**: receives and distributes requests from the Internet to EC2.
+* **NAT Gateway**: provides outbound connectivity for resources in the private subnet.
+* **AWS IAM**: manages access to AWS services through IAM roles.
+* **Amazon ECR**: stores Docker images for the frontend and backend.
+* **Docker**: packages the frontend and backend as containers.
+* **Amazon CloudWatch**: monitors system metrics and supports alerts through CloudWatch Alarms.
+
+The system supports two payment methods: **cash on delivery (COD)** and **bank transfer**. For bank transfers, customers enter a transaction reference, and an administrator can review and confirm the payment status.
 
 #### Benefits
 
-The solution allows the system to be accessed over the Internet while still separating components by function and access level.
+The solution makes the system accessible over the Internet while separating components according to their responsibilities and access requirements.
 
-**Application Load Balancer** serves as the entry point for requests from the Internet, while Amazon EC2 is deployed in the Private Subnet. **NAT Gateway** allows EC2 to make outbound connections without a direct Public IP.
+The **Application Load Balancer** is the Internet-facing entry point, while Amazon EC2 runs in a private subnet. The **NAT Gateway** allows EC2 to make outbound connections without assigning it a public IP address directly.
 
-Docker standardizes the runtime environment for the Frontend and Backend. Amazon RDS provides a dedicated database environment, Amazon S3 handles image storage.
+Docker standardizes the runtime environment for the frontend and backend. Amazon RDS provides a dedicated database environment, while Amazon S3 handles product-image storage.
+
+**Amazon CloudWatch** helps monitor EC2 through metrics such as CPU, network, and instance status. CloudWatch Alarms can be configured to notify operators when metrics exceed defined thresholds, supporting operational monitoring.
 
 ---
 
 ### 3. Solution Architecture
 
-The TechMart architecture is deployed in **Amazon VPC**, including Public Subnets and Private Subnets.
+TechMart runs in an **Amazon VPC** that contains public and private subnets.
 
-Application Load Balancer serves as the single access point from the Internet for both users and administrators through the ALB DNS Name, securely forwarding access requests to servers in the Private Subnet.
+The Application Load Balancer is the Internet-facing entry point for customers and administrators, using the **ALB DNS name**. It forwards requests to the application server in the private subnet.
 
-After receiving the DNS information, the browser sends an HTTPS request to the Application Load Balancer. The ALB receives the request and forwards it to Amazon EC2 in the Private Subnet through the Target Group.
+A user's browser sends a request to the Application Load Balancer. The ALB receives it and forwards it to Amazon EC2 in the private subnet through a target group.
 
-Amazon EC2 runs Docker containers including **Nginx, Next.js and Spring Boot**. Nginx hoạt động như Reverse Proxy and chuyển tiếp request đến Frontend hoặc Backend tương ứng.
+Amazon EC2 runs Docker containers for **Nginx, Next.js, and Spring Boot**. Nginx acts as a reverse proxy and routes requests to the appropriate frontend or backend service.
+
+Amazon RDS runs in the private subnet and only accepts connections from EC2 through its security group. Amazon S3 stores product images. Amazon ECR stores Docker images that EC2 can pull during deployment.
+
+During operation, **Amazon CloudWatch** monitors EC2 metrics. Metrics such as `CPUUtilization`, `NetworkIn`, `NetworkOut`, and `StatusCheckFailed` are used to track instance health. CloudWatch Alarms can be configured for important metrics to notify operators when the system exceeds defined thresholds.
 
 <p align="center">
-  <img src="/images/2-Proposal/kien_truc.svg" width="900">
+  <img src="/images/2-Proposal/AWSAWS.drawio.svg" width="900">
 </p>
 
 #### Component Design
 
-- **Application Load Balancer**: receives HTTP/HTTPS requests from the Internet and forwards requests to EC2 through the Target Group.
-- **Frontend**: Next.js provides the shopping interface, product search, shopping cart, checkout, and order management.
-- **Backend**: Spring Boot provides REST APIs and handles business operations such as user authentication, product management, order creation, payment, and order status updates.
-- **Nginx**: operates as a Reverse Proxy, forwarding requests to Next.js and Spring Boot through the Docker Internal Network.
-- **Docker**: The Frontend and Backend are packaged as Docker Images and run as containers on EC2.
-- **Database**: Amazon RDS for MySQL stores the system’s business data.
-- **Object Storage**: Amazon S3 stores product images and separates file storage from the application server.
-- **Payment**: The Backend handles two payment methods: COD and bank transfer.
-- **Admin**: The administration interface supports product, order, and payment status management.
-- **VPC**: provides a private network environment for AWS resources.
-- **NAT Gateway**: provides outbound connectivity for EC2 in the Private Subnet.
-- **IAM**: manages access permissions to AWS services.
-- **ECR**: stores Docker Images for the Frontend and Backend.
+* **Application Load Balancer**: receives HTTP requests from the Internet and forwards them to EC2 through a target group.
+* **Frontend**: Next.js provides the shopping interface, product search, cart, checkout, and order management.
+* **Backend**: Spring Boot provides the REST API and handles user authentication, product management, order creation, payments, and order-status updates.
+* **Nginx**: acts as a reverse proxy, routing requests to Next.js and Spring Boot over the Docker internal network.
+* **Docker**: packages the frontend and backend as Docker images and runs them as containers on EC2.
+* **Database**: Amazon RDS for MySQL stores the system's business data.
+* **Object storage**: Amazon S3 stores product images, keeping file storage separate from the application server.
+* **Payments**: the backend handles COD and bank-transfer payments.
+* **Administration**: the admin interface supports product, order, and payment-status management.
+* **VPC**: provides a private network environment for AWS resources.
+* **NAT Gateway**: provides outbound connectivity for EC2 in the private subnet.
+* **IAM**: manages access to AWS services.
+* **ECR**: stores Docker images for the frontend and backend.
+* **CloudWatch**: monitors EC2 metrics and provides CloudWatch Alarms when configured thresholds are exceeded.
 
 ---
 
-### 4. Technical Deployment
+### 4. Technical Implementation
 
-#### Deployment Stages
+#### Implementation Phases
 
-The project is deployed through the following main stages:
+The project will be delivered in the following main phases:
 
-**1. Analysis and Design**: Analyze system requirements, identify core functions, and design the deployment architecture on AWS.
+**1. Analysis and design**: Analyze system requirements, identify core features, and design the AWS deployment architecture.
 
-**2. Application Development**: Build the Frontend with Next.js and the Backend with Spring Boot, implementing product, account, shopping cart, checkout, payment, and order management functions.
+**2. Application development**: Build the frontend with Next.js and the backend with Spring Boot, implementing product, account, cart, checkout, payment, and order-management features.
 
-**3. Database and Storage**: Design the MySQL database, deploy it on Amazon RDS, and integrate Amazon S3 for product image storage.
+**3. Database and storage**: Design the MySQL database, deploy it to Amazon RDS, and integrate Amazon S3 for product-image storage.
 
-**4. Application Containerization**: Create Dockerfiles and Docker Images for the Frontend and Backend, and test the applications in the container environment.
+**4. Containerization**: Create Dockerfiles and Docker images for the frontend and backend, then test the application in containers.
 
-**5. Build AWS Network Infrastructure**: Set up Amazon VPC, Public Subnets, Private Subnets, Route Tables, Internet Gateway, NAT Gateway, and Security Groups.
+**5. AWS network infrastructure**: Set up the Amazon VPC, public and private subnets, route tables, Internet Gateway, NAT Gateway, and security groups.
 
-**6. Deploy Application Load Balancer**: Configure the Application Load Balancer, Listener, Target Group, and connect the ALB to EC2 in the Private Subnet.
+**6. Application Load Balancer deployment**: Configure the Application Load Balancer, listener, and target group, and connect the ALB to EC2 in the private subnet.
 
-**8. Application Deployment**: Triển khai Docker container Frontend and Backend lên Amazon EC2. Nginx được cấu hình làm Reverse Proxy and chuyển tiếp request đến các container tương ứng.
+**7. Application deployment**: Deploy the frontend and backend Docker containers to Amazon EC2. Configure Nginx as a reverse proxy to route requests to the appropriate containers.
 
-**9. Integrate AWS Services**: Integrate Amazon S3 and Amazon ECR.
+**8. AWS service integration**: Integrate Amazon S3 and Amazon ECR with the application.
 
-**10. Security and Access Control**: Configure IAM Roles for EC2 and Security Groups for the ALB, EC2, and RDS.
+**9. Security and access control**: Configure the IAM role for EC2 and security groups for the ALB, EC2, RDS, and related components.
 
-**11. Testing and Finalization**: Test the Frontend, Backend, Database, S3, DNS, Load Balancer, outbound connectivity, and system operation after deployment.
+**10. System monitoring**: Configure Amazon CloudWatch to track EC2 metrics and create CloudWatch Alarms for important metrics.
+
+**11. Testing and completion**: Test the frontend, backend, database, S3, load balancer, outbound connectivity, CloudWatch, and the system's operation after deployment.
 
 #### Technical Requirements
 
-- **Frontend**: Next.js, TypeScript, HTML, CSS.
-- **Backend**: Java, Spring Boot, Spring Data JPA, REST API.
-- **Database**: MySQL, Amazon RDS for MySQL.
-- **Storage**: Amazon S3.
-- **Container**: Docker, Amazon ECR.
-- **Networking**: Amazon VPC, Subnet, Route Table, Internet Gateway, NAT Gateway, Application Load Balancer.
-- **Security**: AWS IAM, IAM Role, Security Groups.
-- **Tools**: VS Code, Git, Maven and công cụ quản lý MySQL.
+* **Frontend**: Next.js, TypeScript, HTML, CSS.
+* **Backend**: Java, Spring Boot, Spring Data JPA, REST API.
+* **Database**: MySQL, Amazon RDS for MySQL.
+* **Storage**: Amazon S3.
+* **Containers**: Docker, Amazon ECR.
+* **Networking**: Amazon VPC, subnets, route tables, Internet Gateway, NAT Gateway, Application Load Balancer.
+* **Security**: AWS IAM, IAM roles, security groups.
+* **Monitoring**: Amazon CloudWatch, CloudWatch Metrics, CloudWatch Alarms.
+* **Tools**: VS Code, Git, Maven, and a MySQL management tool.
 
 ---
 
-# 5. Roadmap & Deployment Milestones
+# 5. Roadmap and Milestones
 
 ### Phase 1: Analysis and Design
 
-- Phân tích yêu cầu and các chức năng của hệ thống TechMart.
-- Thiết kế cơ sở dữ liệu MySQL.
-- Thiết kế kiến trúc triển khai trên AWS.
-- Xác định các dịch vụ AWS cần sử dụng.
-- Thiết kế Public Subnet and Private Subnet.
-- Xác định luồng request giữa User, ALB, EC2 and RDS.
+* Analyze TechMart's requirements and features.
+* Design the MySQL database.
+* Design the AWS deployment architecture.
+* Identify the AWS services to use.
+* Design the public and private subnets.
+* Define request flows between the user, ALB, EC2, and RDS.
 
 ### Phase 2: Backend Development
 
-- Build the Backend with Spring Boot.
-- Build REST APIs for accounts, products, shopping carts, and orders.
-- Handle COD and bank transfer payments.
-- Connect to and manipulate data in MySQL.
+* Build the backend with Spring Boot.
+* Create REST APIs for accounts, products, carts, and orders.
+* Implement COD and bank-transfer payments.
+* Connect to MySQL and implement data operations.
 
 ### Phase 3: Frontend Development
 
-- Build the interface with Next.js.
-- Develop login, product, search, and shopping cart functions.
-- Build the checkout and order management pages.
-- Build the administration interface.
+* Build the interface with Next.js.
+* Implement login, product browsing, search, and cart features.
+* Create checkout and order-management pages.
+* Build the administration interface.
 
 ### Phase 4: Database and Storage Integration
 
-- Deploy MySQL on Amazon RDS.
-- Connect the Backend to RDS.
-- Integrate Amazon S3 for product image storage.
-- Test access permissions and the ability to upload and download data.
+* Deploy MySQL on Amazon RDS.
+* Connect the backend to RDS.
+* Integrate Amazon S3 for product-image storage.
+* Verify access permissions and data upload and download operations.
 
-### Phase 5: Build AWS Network Infrastructure
+### Phase 5: AWS Network Infrastructure
 
-- Create an Amazon VPC.
-- Create Public Subnets and Private Subnets.
-- Configure the Internet Gateway.
-- Configure the NAT Gateway.
-- Set up Route Tables.
-- Configure Security Groups.
-- Test connectivity between subnets.
+* Create the Amazon VPC.
+* Create public and private subnets.
+* Configure the Internet Gateway.
+* Configure the NAT Gateway.
+* Set up route tables.
+* Configure security groups.
+* Verify connectivity between subnets.
 
 ### Phase 6: Docker and Application Deployment
 
-- Create Dockerfiles for the Frontend and Backend.
-- Build and test the Docker Images.
-- Push Docker Images to Amazon ECR.
-- Create an Amazon EC2 instance in the Private Subnet.
-- Pull Docker Images from ECR.
-- Deploy the Frontend and Backend using Docker.
-- Configure Nginx as a Reverse Proxy.
+* Create Dockerfiles for the frontend and backend.
+* Build and test the Docker images.
+* Push the Docker images to Amazon ECR.
+* Create an Amazon EC2 instance in the private subnet.
+* Pull the images from ECR.
+* Deploy the frontend and backend with Docker.
+* Configure Nginx as a reverse proxy.
 
 ### Phase 7: Application Load Balancer
 
-- Create an Application Load Balancer (ALB) in the Public Subnet.
-- Configure the Listener (Port 80) and Target Group.
-- Register the EC2 server (Nginx) as a Target.
-- Check the Health Check status to ensure the Target is Healthy.
-- Obtain the ALB DNS Name provided by AWS.
-- Test end-to-end system accessibility through the ALB DNS Name.
+* Create an Application Load Balancer in the public subnet.
+* Configure the listener and target group.
+* Register the EC2 instance running Nginx as a target.
+* Verify the health check and confirm that the target is healthy.
+* Obtain the ALB DNS name provided by AWS.
+* Verify end-to-end access through the ALB DNS name.
 
-### Phase 9: Testing and Finalization
+### Phase 8: Monitoring with Amazon CloudWatch
 
-- Test Frontend and Backend functions.
-- Test connectivity between the ALB and EC2.
-- Test connectivity between EC2 and RDS.
-- Test EC2 connectivity to S3 and ECR.
-- Test the NAT Gateway and outbound connections.
-- Test IAM permissions.
-- Check Docker container status.
-- Finalize the system and deployment documentation.
+* Open Amazon CloudWatch and select the **AWS/EC2** namespace.
+* Select the TechMart EC2 instance to monitor.
+* Track important metrics such as `CPUUtilization`, `NetworkIn`, `NetworkOut`, and `StatusCheckFailed`.
+* Configure a CloudWatch Alarm for the `CPUUtilization` metric.
+* Set a threshold appropriate for the workshop environment.
+* Configure the alarm period and evaluation conditions.
+* Configure an SNS topic if notifications are needed when the alarm enters the **In alarm** state.
+* Verify the alarm state and confirm that CloudWatch is receiving EC2 data.
+
+### Phase 9: Testing and Completion
+
+* Test frontend and backend features.
+* Verify the connection between the ALB and EC2.
+* Verify the connection between EC2 and RDS.
+* Verify EC2 connectivity to S3 and ECR.
+* Verify the NAT Gateway and outbound connections.
+* Verify IAM permissions.
+* Check Docker container status.
+* Check EC2 metrics in CloudWatch.
+* Check CloudWatch Alarm status.
+* Complete the system and deployment documentation.
 
 ---
 
@@ -211,27 +239,29 @@ The project is deployed through the following main stages:
 
 ### Estimated Infrastructure Costs
 
-| AWS Service | Configuration & Detailed Usage | Estimated Cost / Month |
-|---|---|---:|
-| **Amazon EC2** | 1 × `t3.micro` ($0.0132/giờ × 720h) | **~$9.50** |
-| **Amazon RDS MySQL** | 1 × `db.t3.micro` Single-AZ ($0.029/giờ × 720h) | **~$20.88** |
-| **RDS Storage** | 20 GB `gp2/gp3` Storage ($0.138/GB/tháng) | **~$2.76** |
-| **Amazon S3** | 10 GB Standard Storage + GET/PUT requests | **~$0.30** |
-| **Amazon ECR** | ~2–3 GB Docker Image storage | **~$0.30** |
-| **Application Load Balancer** | 1 ALB ($0.0225/giờ × 720h) + LCU cơ bản | **~$18.00** |
-| **NAT Gateway** | Maintenance fee: $0.045/giờ × 720h (~$32.40); Data processing fee: ~$0.045/GB (estimated ~10 GB traffic); Elastic IP: $0 (Free because it is assigned to the NAT Gateway) | ~$32.85 |
-| ESTIMATED TOTAL COST | (Continuous operation 24/7 for 30 days) | ~$86.51 / tháng |
+| AWS service | Configuration and usage assumptions | Estimated cost per month |
+| --- | --- | ---: |
+| **Amazon EC2** | 1 × `t3.micro`, running 720 hours/month | **~$9.50** |
+| **Amazon RDS for MySQL** | 1 × `db.t3.micro`, Single-AZ, 720 hours/month | **~$20.88** |
+| **RDS storage** | 20 GB General Purpose Storage | **~$2.76** |
+| **Amazon S3** | 10 GB Standard Storage plus GET/PUT requests | **~$0.30** |
+| **Amazon ECR** | Approximately 2–3 GB of Docker images | **~$0.30** |
+| **Application Load Balancer** | 1 ALB plus basic LCU usage | **~$18.00** |
+| **NAT Gateway** | Hourly charge plus estimated data processing | **~$32.85** |
+| **Amazon CloudWatch** | EC2 metrics and alarms within the workshop scope | **Depends on usage** |
+| **ESTIMATED TOTAL** | Running continuously, 24/7 for 30 days | **~$86.51 plus any CloudWatch usage** |
 
-### Cost Control
+### Cost Controls
 
-- **AWS Budgets:** Set alerts when costs reach the desired thresholds.
-- **Amazon EC2:** Use an appropriate configuration and stop EC2 when not in use.
-- **Amazon RDS:** Use a configuration appropriate for the workshop and stop or delete resources when completed.
-- **NAT Gateway:** Monitor uptime and the amount of data transferred through the NAT Gateway.
-- **Application Load Balancer:** Monitor usage and delete the ALB when no longer needed.
-- **Amazon S3:** Control image storage capacity.
-- **Amazon ECR:** Delete old Docker Images that are no longer used.
-- **Post-workshop Cleanup:** Delete or stop AWS resources that are no longer used after completion.
+* **AWS Budgets**: Configure alerts for desired spending thresholds.
+* **Amazon EC2**: Choose an appropriate instance size and stop or terminate the instance when it is no longer needed.
+* **Amazon RDS**: Choose a configuration suitable for the workshop and stop or delete resources when it is complete.
+* **NAT Gateway**: Monitor its uptime and the amount of data processed.
+* **Application Load Balancer**: Track usage and delete the ALB when it is no longer needed.
+* **Amazon S3**: Control product-image storage usage.
+* **Amazon ECR**: Delete outdated Docker images that are no longer used.
+* **Amazon CloudWatch**: Monitor usage and configured components to avoid unnecessary monitoring resources.
+* **Post-workshop cleanup**: Stop or delete AWS resources that are no longer needed.
 
 ---
 
@@ -239,78 +269,84 @@ The project is deployed through the following main stages:
 
 ### Risk Matrix
 
-- *EC2 is not operational*: High impact, medium probability.
-- *Application Load Balancer cannot forward requests*: High impact, medium probability.
-- *Unable to connect to RDS*: High impact, medium probability.
-- *NAT Gateway is not operational*: Medium to high impact, medium probability.
-- *Product image upload to S3 fails*: Medium impact, low probability.
-- *Incorrect Security Group configuration*: High impact, medium probability.
-- *IAM Role lacks permissions*: Medium impact, medium probability.
-- *Docker container is not operational*: High impact, medium probability.
-- *AWS costs exceed expectations*: Medium impact, medium probability.
+* **EC2 instance unavailable**: High impact, medium likelihood.
+* **Application Load Balancer unable to forward requests**: High impact, medium likelihood.
+* **Unable to connect to RDS**: High impact, medium likelihood.
+* **NAT Gateway unavailable**: Medium-to-high impact, medium likelihood.
+* **Product-image upload to S3 fails**: Medium impact, low likelihood.
+* **Incorrect security-group configuration**: High impact, medium likelihood.
+* **Insufficient IAM role permissions**: Medium impact, medium likelihood.
+* **Docker container unavailable**: High impact, medium likelihood.
+* **CloudWatch Alarm misconfigured**: Medium impact, low likelihood.
+* **AWS costs exceed the estimate**: Medium impact, medium likelihood.
 
-### Mitigation Strategy
+### Mitigation Strategies
 
-- Check the EC2 status.
-- Check the Target status and Health Check of the Application Load Balancer.
-- Check connectivity between EC2 and RDS, especially the Security Group and connection information.
-- Check the Route Table when EC2 cannot establish outbound connectivity.
-- Check the NAT Gateway status when EC2 cannot access external services.
-- Check IAM permissions when EC2 accesses S3 and ECR.
-- Use AWS Budgets to monitor and alert on costs.
-- Back up database data when necessary.
+* Check the EC2 instance status.
+* Check the Application Load Balancer target status and health checks.
+* Check connectivity between EC2 and RDS, especially security groups and connection settings.
+* Check route tables when EC2 cannot establish outbound connections.
+* Check the NAT Gateway status when EC2 cannot access external services.
+* Check IAM permissions when EC2 accesses S3 and ECR.
+* Check EC2 metrics in CloudWatch.
+* Check CloudWatch Alarm thresholds and status.
+* Use AWS Budgets to monitor costs and receive alerts.
+* Back up database data when necessary.
 
 ### Contingency Plan
 
-- Restart or redeploy Docker containers on EC2.
-- Check and update the Target Group or Security Group when the ALB cannot connect to EC2.
-- Check and update the Route Table or NAT Gateway when EC2 cannot establish outbound connectivity.
-- Restore the database from an RDS backup when necessary.
-- Check the IAM Role if EC2 cannot access AWS services.
-- The local environment can be used to test the Backend if the AWS environment encounters issues.
+* Restart or redeploy Docker containers on EC2.
+* Check and update the target group or security group if the ALB cannot connect to EC2.
+* Check and update the route table or NAT Gateway if EC2 cannot establish outbound connections.
+* Restore the database from an RDS backup when necessary.
+* Check the IAM role if EC2 cannot access AWS services.
+* Check CloudWatch metrics and alarms if monitoring data is missing or alerts are not working.
+* Use a local environment to test the backend if the AWS environment is unavailable.
 
 ---
 
-# 8. Expected Results
+# 8. Expected Outcomes
 
 ### Technical Improvements
 
-The e-commerce system is deployed on AWS with the Next.js Frontend and Spring Boot Backend packaged using Docker, connected to a MySQL database on Amazon RDS, with images stored on Amazon S3.
+The e-commerce system will be deployed on AWS with a Next.js frontend and Spring Boot backend packaged in Docker, connected to a MySQL database on Amazon RDS, with product images stored in Amazon S3.
 
-Kiến trúc sử dụng **Application Load Balancer (ALB)** để tiếp nhận request từ Internet thông qua địa chỉ **ALB DNS Name**, trong khi Amazon EC2 được triển khai an toàn trong Private Subnet. **NAT Gateway** cung cấp khả năng kết nối outbound ra Internet cho EC2.
+The architecture uses an **Application Load Balancer (ALB)** to receive Internet requests through its **ALB DNS name**, while Amazon EC2 runs in a private subnet. A **NAT Gateway** provides outbound connectivity for EC2.
 
-Access to AWS services is granted through **IAM Role**, Docker Images are stored on **Amazon ECR**.
+Access to AWS services is granted through an **IAM role**, and Docker images are stored in **Amazon ECR**.
 
-### Deployment Results
+**Amazon CloudWatch** monitors EC2 through metrics and CloudWatch Alarms. These metrics provide information about resource usage and instance status, helping operators track the system during operation.
 
-- The Next.js Frontend and Spring Boot Backend are deployed using Docker on Amazon EC2.
-- Docker Images are stored on Amazon ECR.
-- MySQL is deployed on Amazon RDS.
-- Product images are stored on Amazon S3.
-- The Application Load Balancer receives and distributes requests to EC2.
-- The NAT Gateway provides outbound connectivity for EC2 in the Private Subnet.
-- IAM Roles are used to grant EC2 access to AWS services.
-- Resources are deployed in Amazon VPC.
-- Security Groups are used to control connectivity between the ALB, EC2, and RDS.
+### Deployment Outcomes
 
-### System Functions
+* The Next.js frontend and Spring Boot backend run in Docker on Amazon EC2.
+* Docker images are stored in Amazon ECR.
+* MySQL runs on Amazon RDS.
+* Product images are stored in Amazon S3.
+* The Application Load Balancer receives and distributes requests to EC2.
+* The NAT Gateway provides outbound connectivity for EC2 in the private subnet.
+* An IAM role grants EC2 access to AWS services.
+* Resources are deployed in an Amazon VPC.
+* Security groups control connections between the ALB, EC2, and RDS.
+* Amazon CloudWatch is configured to monitor EC2 metrics.
+* CloudWatch Alarms notify operators when important metrics exceed configured thresholds.
 
-- Customers can register and log in.
-- Customers can browse and search for products.
-- Customers can add products to the shopping cart.
-- Customers can place orders.
-- Customers can pay by COD.
-- Customers can pay by bank transfer and enter the transaction code.
-- Customers can track order status.
-- Administrators can view and process orders.
-- Administrators can confirm bank transfer payments.
-- Administrators can manage products.
-- Product images are stored on Amazon S3.
+### System Features
+
+* Customers can register and sign in.
+* Customers can browse and search for products.
+* Customers can add products to the cart.
+* Customers can place orders.
+* Customers can pay by COD.
+* Customers can pay by bank transfer and enter a transaction reference.
+* Customers can track order statuses.
+* Administrators can view and process orders.
+* Administrators can confirm bank-transfer payments.
+* Administrators can add, edit, and delete products.
+* Product images are stored in Amazon S3.
 
 ### Long-Term Value
 
-The workshop provides a Full-Stack e-commerce application deployment model on AWS, demonstrating how to combine **VPC, Public Subnet, Private Subnet, , Application Load Balancer, NAT Gateway, EC2, RDS, S3, ECR and IAM** in a complete system.
+This workshop provides a model for deploying a full-stack e-commerce application on AWS. It demonstrates how **VPC, public and private subnets, Application Load Balancer, NAT Gateway, EC2, RDS, S3, ECR, IAM, and CloudWatch** work together in a complete system.
 
-Using Docker standardizes the application runtime environment, while separating Public Subnets and Private Subnets provides clearer network infrastructure organization. The Application Load Balancer handles requests from the Internet, EC2 focuses on application processing, RDS stores data, and S3 stores images.
-
-This architecture provides a foundation for future system expansion, such as adding more EC2 instances to the Application Load Balancer Target Group or scaling application components as demand increases.
+Docker standardizes the application runtime, while separating public and private subnets helps organize the network infrastructure. The Application Load Balancer receives requests from the Internet, EC2 runs the application, RDS stores data, S3 stores images, and CloudWatch supports infrastructure monitoring.

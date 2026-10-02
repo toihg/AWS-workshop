@@ -10,31 +10,33 @@ pre: " <b> 3. </b> "
 
 #### Lab Overview
 
-In this workshop, we will build and deploy the TechMart e-commerce system on the AWS platform. The system is developed using a Full-Stack architecture with Spring Boot as the Backend, Next.js as the Frontend, and Nginx serving as the Reverse Proxy.
+In this workshop, we will build and deploy the TechMart e-commerce system on AWS. The full-stack application uses Spring Boot for the backend, Next.js for the frontend, and Nginx as a reverse proxy.
 
-The application is packaged with Docker and deployed on an Amazon EC2 server. Amazon RDS for MySQL is used to store transaction data, Amazon S3 is used to store product images, and Amazon ECR is used to store Docker Images.
+The application is packaged with Docker and deployed on an Amazon EC2 instance. Amazon RDS for MySQL stores the application's data, Amazon S3 stores product images, and Amazon ECR stores Docker images.
 
-The system is deployed within an Amazon VPC with Public Subnet and Private Subnet to ensure security. The Application Load Balancer and NAT Gateway are deployed in the Public Subnet, while Amazon EC2 and Amazon RDS are securely deployed in the Private Subnet. The NAT Gateway is assigned an Elastic IP to provide outbound connectivity from resources in the Private Subnet to the Internet through the Internet Gateway.
+The system runs in an Amazon VPC with public and private subnets. The Application Load Balancer (ALB) and NAT Gateway are placed in the public subnet, while Amazon EC2 and Amazon RDS run in the private subnet. An Elastic IP is assigned to the NAT Gateway so resources in the private subnet can access the Internet through the Internet Gateway.
 
-The Application Load Balancer (ALB) receives requests from the Internet through the ALB DNS Name (provided by AWS by default) and forwards requests to the Nginx Reverse Proxy on Amazon EC2 in the Private Subnet to route internal traffic to Next.js and Spring Boot.
+The ALB accepts Internet traffic through its AWS-provided DNS name and forwards requests to the Nginx reverse proxy on the EC2 instance. Nginx then routes traffic internally to the Next.js frontend and Spring Boot backend.
 
-AWS IAM is used to manage access to AWS services through IAM Roles.
+AWS IAM roles are used to manage the application's access to AWS services.
 
-During the implementation, we will prepare the environment and source code, build the network infrastructure with Amazon VPC (Public Subnet, Private Subnet, Route Table, Internet Gateway, NAT Gateway, Elastic IP), initialize Amazon RDS MySQL and Amazon S3, configure AWS IAM, set up Amazon ECR, package the application with Docker, deploy the Backend and Frontend to EC2, configure the Nginx Reverse Proxy and Application Load Balancer, and monitor and test the entire system End-to-End.
+Throughout the workshop, we will prepare the environment and source code; create the network infrastructure, including the VPC, subnets, route tables, Internet Gateway, NAT Gateway, and Elastic IP; set up Amazon RDS for MySQL and Amazon S3; configure IAM and Amazon ECR; package the application with Docker; deploy the backend and frontend to EC2; configure Nginx and the ALB; monitor the system using CloudWatch and test the complete system end to end.
 
-Finally, the AWS resources created during the workshop will be cleaned up to avoid unnecessary costs.
+Finally, we will remove the AWS resources created for the workshop to avoid unnecessary charges.
 
 ---
 
 #### Technical Lab Structure
 
-1. [3.1. Prepare the Environment](http://localhost:1313/Workshop/3-workshop/3.1-prepare-environment/)
-2. [3.2. Deploy the Network Infrastructure](http://localhost:1313/Workshop/3-workshop/3.2-network-configuration/)
-3. [3.3. Initialize and Configure Amazon RDS MySQL](http://localhost:1313/Workshop/3-workshop/3.3-amazon-rds/)
-4. [3.4. Configure Amazon S3](http://localhost:1313/Workshop/3-workshop/3.4-amazon-s3/)
-5. [3.5. Configure IAM Role for the EC2 Server](http://localhost:1313/Workshop/3-workshop/3.5-aws-iam/)
-6. [3.6. Initialize the EC2 Server and Import Data into RDS via SSM](http://localhost:1313/Workshop/3-workshop/3.6-ec2/)
-7. [3.7. Package the Application with Docker](http://localhost:1313/Workshop/3-workshop/3.7-docker-build)
-8. [3.8. Deploy the Application to Amazon EC2](http://localhost:1313/Workshop/3-workshop/3.8-deploy/)
-9. [3.9. Configure the Application Load Balancer](http://localhost:1313/Workshop/3-workshop/3.9-alb/)
-10. [3.10. Clean Up AWS Resources](http://localhost:1313/Workshop/3-workshop/3.10-clean/)
+1. [3.1. Prepare the Environment](./3.1-prepare-environment/)
+2. [3.2. Deploy the Network Infrastructure](./3.2-network-configuration/)
+3. [3.3. Initialize and Configure Amazon RDS MySQL](./3.3-amazon-rds/)
+4. [3.4. Configure Amazon S3](./3.4-amazon-s3/)
+5. [3.5. Configure IAM Role for the EC2 Server](./3.5-aws-iam/)
+6. [3.6. Initialize the EC2 Server and Import Data into RDS via SSM](./3.6-ec2/)
+7. [3.7. Package the Application with Docker](./3.7-docker-build/)
+8. [3.8. Deploy the Application to Amazon EC2](./3.8-deploy/)
+9. [3.9. Configure the Application Load Balancer](./3.9-alb/)
+10. [3.10. Monitor the System with Amazon CloudWatch](./3.10-cloudwatch/)
+11. [3.11. Test the System](./3.11-test/)
+12. [3.12. Clean Up AWS Resources](./3.12-clean/)
